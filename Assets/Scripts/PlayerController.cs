@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     GameObject player;
     Rigidbody2D rb;
 
+    bool canJump = false;
+
     float horizontalMov = 0;
     // Start is called before the first frame update
     void Start()
@@ -24,17 +26,18 @@ public class PlayerController : MonoBehaviour
     {
         this.horizontalMov = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && this.canJump)
         {
+            this.canJump = false;
             this.rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         }
 
         int lookDirection = (int)horizontalMov;
 
-        if (lookDirection != 0)
-        {
-            this.player.transform.localScale = new Vector3(lookDirection, 1, 0);
-        }
+        if (lookDirection == 0) return;
+
+        this.player.transform.localScale = new Vector3(lookDirection, 1, 0);
+
 
     }
 
@@ -46,10 +49,15 @@ public class PlayerController : MonoBehaviour
 
     void move()
     {
-        Vector2 newVelocity = new Vector2(horizontalMov * speed * Time.fixedDeltaTime, rb.velocity.y);
+        Vector2 newVelocity = new Vector2(horizontalMov * this.speed * Time.fixedDeltaTime, rb.velocity.y);
         Debug.Log(newVelocity);
 
         this.rb.velocity = newVelocity;
+    }
+
+    public void setJump(bool value)
+    {
+        this.canJump = value;
     }
 
 }
