@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
 
     [SerializeField]
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float jumpForce;
 
-     [Space(10)]
+    [Space(10)]
 
     [SerializeField]
     string moveSet;
@@ -34,6 +35,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         this.horizontalMov = Input.GetAxisRaw(this.moveSet);
 
         if (Input.GetKeyDown(this.jumpButton) && this.canJump)
