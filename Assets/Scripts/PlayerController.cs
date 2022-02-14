@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
     [SerializeField]
     float speed;
 
     [SerializeField]
     float jumpForce;
+
+     [Space(10)]
+
+    [SerializeField]
+    string moveSet;
+
+    [SerializeField]
+    KeyCode jumpButton;
+
     GameObject player;
     Rigidbody2D rb;
 
@@ -24,9 +34,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        this.horizontalMov = Input.GetAxisRaw("Horizontal");
+        this.horizontalMov = Input.GetAxisRaw(this.moveSet);
 
-        if (Input.GetKeyDown(KeyCode.Space) && this.canJump)
+        if (Input.GetKeyDown(this.jumpButton) && this.canJump)
         {
             this.canJump = false;
             this.rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
